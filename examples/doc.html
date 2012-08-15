@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>jQuery Scrollz</title>
+    
+     <!-- Scrollz CSS -->
+    <link rel="stylesheet" href="../src/jquery.scrollz.css"/>
+    
+    <!-- jQuery library -->
+    <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    
+    <!-- Scrollz plugin -->
+    <script src="../src/jquery.scrollz.js"></script>
+    
+    <style>
+        
+        body {
+            color: #fff;
+            margin: 20px;
+            font: 13px 'trebuchet MS',Arial,Helvetica;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background: #45484d; /* Old browsers */
+            background: -moz-linear-gradient(top,  #45484d 0%, #000000 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  #45484d 0%,#000000 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  #45484d 0%,#000000 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  #45484d 0%,#000000 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  #45484d 0%,#000000 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+        }
+        
+        a {
+            color: #1BA8E0;
+        }
+        
+        .small-container {
+            width: 336px;
+            margin: 0pt auto;
+        }
+
+        .scrollz-container {
+            border: solid #FFF 1px;
+            background-color: #666;
+            box-shadow:inset 0 0 10px #000000;
+        }
+        
+        .scrollz-container ul{
+            padding: 0px;
+        }
+        .scrollz-container li{
+            border-bottom: 1px #FFF solid;
+            padding : 5px 0px;
+        }
+        
+    </style>
+    
+</head>
+<body>
+    
+    <h1>jQuery Scrollz v1.0</h1>
+    <p>
+        Scrollz is a jQuery plugin that adds modern scrolling features to HTML content.
+        Primarly designed to work on touch devices, the plugin works as well on desktop browsers.
+        At the moment only vertical scroll is supported.
+    </p>
+    
+    <h2>Basic use</h2>
+    <p>
+        Call <b>.scrollz()</b> on any element selector to make it scrollable.
+        The scrollable content supports mouse and touch events.
+        By default scrolling uses inertia (this can be disabled with options).
+        The width of the scrollable area is based on the parent element.
+        The height is determined by the one initially set on the content.
+    </p>
+    <h3>Markup</h3>
+    <p>TODO</p>
+    <p>Before calling <b>.scrollz()</b> remember to always give a height to the content.</p>
+    <h3>Code</h3>
+    <pre>
+        $('#scrollz1').scrollz();
+        
+        // Disable image dragging in content
+        $('#scrollz1').find('img').bind('mousedown', function(event) {
+            event.preventDefault();
+        });
+    </pre>
+    <h3>Result</h3>
+    <div class="small-container">
+        <div id='scrollz1' style="height: 400px; padding: 0px 15px;">
+            <p>Scroll to see other pictures</p>
+            <p>
+                <img src="http://distilleryimage7.s3.amazonaws.com/8114892a1fff11e19896123138142014_6.jpg"/>
+            </p>
+            <p>
+                <img src="http://distillery.s3.amazonaws.com/media/2011/10/05/9302b8e1f5ee40ddaff9dec24f9a77f5_6.jpg"/>
+            </p>
+            <p>
+                <img src="http://distillery.s3.amazonaws.com/media/2011/09/23/e21e8552138146ac945876dbcb043ecc_6.jpg"/>
+            </p>
+            <p>
+                <img src="http://distillery.s3.amazonaws.com/media/2011/08/24/4768d409cf944eb3932aae917070932e_6.jpg"/>
+            </p>
+            <p>End of content</p>
+        </div>
+    </div>
+    <script>   
+        $(document).ready(function() {
+            $('#scrollz1').scrollz();
+            
+             // Disable image dragging in content
+            $('#scrollz1').find('img').bind('mousedown', function(event) {
+                event.preventDefault();
+            });
+        });
+    </script>
+    
+    <h2>Options</h2>
+    <p>
+        <ul>
+            <li><b>styleClass (string)</b> : style class to apply on the scrolling area (default: none).</li>
+            <li><b>inertia (boolean)</b> : should scrolling area scroll with inertia effect (default: true).</li>
+            <li><b>pull (boolean)</b> : should scrolling area support 'pull' feature. In this case, a pull header is added on top of the content. When scrolling area is 'pull' at its top, the header appears (default: false).</li>
+            <li><b>pullHeaderHTML (map)</b> : HTML code used to render the pull header for the following states : 'initial', 'release' and 'waiting'. A default HTML rendition is provided for each state.</li>
+            <li><b>emulateTouchEvents (boolean)</b> : should the plugin emulate touch events on devices without touch support (default: false).</li>
+        </ul>
+    </p>
+    <h3>Code</h3>
+    <pre>
+        $('#scrollz1').scrollz({
+            // Options here
+        });
+    </pre>
+    
+    <h2>Methods</h2>
+    <p>
+        Scrollz provides the following methods :
+        <ul>
+            <li><b>height(int height)</b> : redefines scrolling area height.</li>
+            <li><b>hidePullHeader</b> : hides the pull header (must be called after processing of the pull action completed).</li>
+        </ul>
+    </p>
+    <h3>Code</h3>
+    <pre>
+        // Resize
+        $('#scrollz1').scrollz('resize', 500);
+        
+        // Hide pull header
+        $('#scrollz1').bind('pulled', function() {
+        
+            // Process pull action
+            
+            $('#scrollz1').scrollz('hidePullHeader');
+        });
+    </pre>
+    
+    <h2>Events</h2>
+    <p>
+        Scrollz can trigger 2 types of events :
+        <ul>
+            <li><b>bottomreached</b> : notifies that the bottom of the scrolling area is reached.</li>
+            <li><b>pulled</b> : notifies that the scrolling area (with pull header) was pulled.</li>
+        </ul>
+        The <b>bottomreached</b> event is usefull to implement 'infinte scroll' feature.
+    </p>
+    <h3>Code (infinite scroll and pull to refresh)</h3>
+    <pre>
+        // Scroll with pull support
+        $('#scrollz2').scrollz({
+                pull : true
+            });
+            
+        // Bind events
+        $('#scrollz2').bind('bottomreached', function() {
+            // Load more
+            loadMore();
+        });
+        
+        $('#scrollz2').bind('pulled', function() {
+             // Reset page index
+            nextPageIndex = 0;
+            
+            // Reload
+            loadMore();
+        });
+            
+        // Load more function : used to load AJAX content (uses Twitter JSONP)
+        var nextPageIndex = 0;
+        var loading = false;
+        function loadMore() {
+        
+                loading = true;
+
+                $.getJSON('https://api.twitter.com/1/statuses/user_timeline.json?page=' + nextPageIndex +
+                '&include_entities=true&include_rts=true&screen_name=zippy1978&count=25&callback=?', function(JSON) {
+                    
+                        // First page
+                        if (nextPageIndex == 0) {
+                                $('#scrollz2 ul').empty();
+                        }
+                      
+                        $.each(JSON, function() {
+                                lastPageIndex = this.id;
+                                $('#scrollz2 ul').append('&lt;li&gt;' + this.text + '&lt;/li&gt;');
+                        });
+                      
+                        // Hide pull header after first page is loaded
+                        if (nextPageIndex == 0) {
+                                $('#scrollz2').scrollz('hidePullHeader');
+                        }
+                        
+                        nextPageIndex++;
+                    
+                        loading = false;
+                });
+                
+        }
+    </pre>
+    <h3>Result</h3>
+    <div class="small-container">
+        <div id='scrollz2' style="height: 346px; padding: 0px 10px">
+            <ul></ul>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            // Scroll with pull support
+            $('#scrollz2').scrollz({
+                    pull : true
+                });
+                
+            // Bind events
+            $('#scrollz2').bind('bottomreached', function() {
+                // Load more
+                loadMore();
+            });
+            
+            $('#scrollz2').bind('pulled', function() {
+                 // Reset page index
+                nextPageIndex = 0;
+                
+                // Reload
+                loadMore();
+            });
+                
+            // Load more function : used to load AJAX content (uses Twitter JSONP)
+            var nextPageIndex = 0;
+            var loading = false;
+            function loadMore() {
+            
+                    loading = true;
+    
+                    $.getJSON('https://api.twitter.com/1/statuses/user_timeline.json?page=' + nextPageIndex + '&include_entities=true&include_rts=true&screen_name=zippy1978&count=25&callback=?', function(JSON) {
+                        
+                            // First page
+                            if (nextPageIndex == 0) {
+                                    $('#scrollz2 ul').empty();
+                            }
+                          
+                            $.each(JSON, function() {
+                                    lastPageIndex = this.id;
+                                    $('#scrollz2 ul').append('<li>' + this.text + '</li>');
+                            });
+                          
+                            // Hide pull header after first page is loaded
+                            if (nextPageIndex == 0) {
+                                    $('#scrollz2').scrollz('hidePullHeader');
+                            }
+                            
+                            nextPageIndex++;
+                        
+                            loading = false;
+                    });
+                    
+            }
+            
+            // Initial loading
+            loadMore();
+        });
+    </script>
+    
+    <h2>Styling</h2>
+    <p>
+        The plugin is provided with a default CSS. This CSS includes pull header and scroll thumb styling.
+        <ul>
+            <li>Styling on the different pull header states (based on the default pullHeaderHTML markup).</li>
+            <li>Pull header icons (as base64) : arrow and animated loader, with retina support.</li>
+            <li>Pull header arrow animations (up and down).</li>
+            <li>Scroll thumb simple styling.</li>
+        </ul>
+        
+    </p>
+    
+</body>
+</html>

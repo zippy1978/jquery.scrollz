@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jQuery Scrollz</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css"/>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		
+		<!-- Scrollz plugin -->
+		<script src="../src/jquery.scrollz.js"></script>
+		
+		<!-- Scrollz CSS -->
+		<link rel="stylesheet" href="../src/jquery.scrollz.css"/>
+    
+    
+		<style>
+			/* Wrapping */
+			.wrapping-truncate {
+				white-space: nowrap;
+			}
+     
+			.wrapping-new-line {
+				white-space: normal;
+			}
+			
+			/* List icon positioning */
+			.ui-li-has-icon .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li-has-icon {
+				min-height: 40px;
+				padding-left: 60px;
+			}
+			
+			/* List links */
+			.ui-li a {
+				color: #1BA8E0;
+				text-decoration: none;
+			}
+		</style>
+		
+		<script>
+			// Next page index loaded
+			var nextPageIndex = 0;
+			
+			// Indicates if new entries loading is in progress
+			var loading = false;
+
+			// Parsing utilities from: http://www.simonwhatley.co.uk/parsing-twitter-usernames-hashtags-and-urls-with-javascript			
+			String.prototype.parseURL = function() {
+				return this.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g, function(url) {
+					return url.link(url);
+				});
+			};
+			String.prototype.parseUsername = function() {
+				return this.replace(/[@]+[A-Za-z0-9-_]+/g, function(u) {
+					var username = u.replace("@","")
+					return u.link("http://twitter.com/"+username);
+				});
+			};
+			String.prototype.parseHashtag = function() {
+				return this.replace(/[#]+[A-Za-z0-9-_]+/g, function(t) {
+					var tag = t.replace("#","%23")
+					return t.link("http://search.twitter.com/search?q="+tag);
+				});
+			};
+		
+			// Load more function        
+			function loadMore() {
+				loading = true;
+		
+				$.getJSON('https://api.twitter.com/1/statuses/user_timeline.json?page=' + nextPageIndex + '&include_entities=true&include_rts=true&screen_name=zippy1978&count=25&callback=?', function(JSON) {
+					var targetList = $('#tweets');
+				    
+					// First page
+					if (nextPageIndex == 0) {
+						targetList.empty();
+					}
+				      
+					$.each(JSON, function() {
+						lastPageIndex = this.id;
+						targetList.append('<li><img class="ui-li-icon" src="' + this.user.profile_image_url + '"/><h3 class="wrapping-new-line">' + this.text.parseURL().parseUsername().parseHashtag() + '</h3></li>');
+					});
+					
+					targetList.listview("refresh");
+				      
+					// Force resize
+					$(window).resize();
+					
+					// Hide pull header after first page is loaded
+					if (nextPageIndex == 0) {
+						$('#content').scrollz('hidePullHeader');
+					}
+					
+					nextPageIndex++;
+				    
+					loading = false;
+				});
+				
+			}
+			
+			/* Global init */
+			$(document).bind("mobileinit", function() {
+
+				$(document).bind("pageshow", function() {
+					
+					// Enable scrollz
+					$('#content').scrollz({
+						pull: true,
+						emulateTouchEvents : true
+					});
+					
+					// Force resize (otherwise initial sizes cannot be calculated)
+					$(window).resize();
+					$('#content').scrollz('hidePullHeader');
+					
+					// Bind events
+					$('#content').bind('bottomreached', function() {
+					    // Load more
+					    loadMore();
+					});
+					
+					$('#content').bind('pulled', function() {
+					     // Reset page index
+					    nextPageIndex = 0;
+					    
+					    // Reload
+					    loadMore();
+					});
+				
+					// Load initial tweets
+					loadMore();
+				});
+				
+				$(window).resize(function() {
+					// Compute content heights (between header and footer, if any) visible and full
+					var visibleContentHeight = (window.innerHeight ? window.innerHeight : $(window).height()) - $(".ui-page-active div.ui-footer").outerHeight() - $(".ui-page-active div.ui-header").outerHeight();
+					var activePageHeight = $('.ui-page-active').height();
+					var fullContentHeight = activePageHeight > visibleContentHeight ? activePageHeight : visibleContentHeight;
+					$('#content').scrollz('height', fullContentHeight);
+				});
+				
+			});
+		
+		</script>
+		
+		<script type="text/javascript" src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+		
+	</head>
+	<body>
+		<div id="index" data-role="page" data-theme="a">
+			<!-- Header -->
+			<div data-role="header" data-position="fixed" data-tap-toggle="false">
+				<div>
+					<h1 class='ui-title' role='heading' aria-level='1'>jQuery Scrollz</h1>
+				</div>
+			</div>
+			
+			<!-- Content -->
+			<div id="content" data-role="content" data-theme="e">
+				<ul id="tweets" data-role='listview' data-inset='false' data-theme='c'>
+					
+				</ul> 
+			</div>
+			
+			<!-- Footer -->
+			<div data-role="footer" data-position="fixed" data-tap-toggle="false"></div>
+
+
+		</div>
+	</body>
+</html>
