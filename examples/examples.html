@@ -58,23 +58,26 @@
 </head>
 <body>
     
-    <h1>jQuery Scrollz v1.0</h1>
-    <p>
-        Scrollz is a jQuery plugin that adds modern scrolling features to HTML content.
-        Primarly designed to work on touch devices, the plugin works as well on desktop browsers.
-        At the moment only vertical scroll is supported.
-    </p>
-    
-    <h2>Basic use</h2>
-    <p>
-        Call <b>.scrollz()</b> on any element selector to make it scrollable.
-        The scrollable content supports mouse and touch events.
-        By default scrolling uses inertia (this can be disabled with options).
-        The width of the scrollable area is based on the parent element.
-        The height is determined by the one initially set on the content.
-    </p>
+    <h2>A simple scroll</h2>
     <h3>Markup</h3>
-    <p>TODO</p>
+    <pre>
+    &lt;div id='scrollz1' style=&quot;height: 400px; padding: 0px 15px;&quot;&gt;
+        &lt;p&gt;Scroll to see other pictures&lt;/p&gt;
+        &lt;p&gt;
+            &lt;img src=&quot;http://distilleryimage7.s3.amazonaws.com/8114892a1fff11e19896123138142014_6.jpg&quot;/&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+            &lt;img src=&quot;http://distillery.s3.amazonaws.com/media/2011/10/05/9302b8e1f5ee40ddaff9dec24f9a77f5_6.jpg&quot;/&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+            &lt;img src=&quot;http://distillery.s3.amazonaws.com/media/2011/09/23/e21e8552138146ac945876dbcb043ecc_6.jpg&quot;/&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+            &lt;img src=&quot;http://distillery.s3.amazonaws.com/media/2011/08/24/4768d409cf944eb3932aae917070932e_6.jpg&quot;/&gt;
+        &lt;/p&gt;
+        &lt;p&gt;End of content&lt;/p&gt;
+    &lt;/div&gt;
+    </pre>
     <p>Before calling <b>.scrollz()</b> remember to always give a height to the content.</p>
     <h3>Code</h3>
     <pre>
@@ -115,55 +118,15 @@
         });
     </script>
     
-    <h2>Options</h2>
-    <p>
-        <ul>
-            <li><b>styleClass (string)</b> : style class to apply on the scrolling area (default: none).</li>
-            <li><b>inertia (boolean)</b> : should scrolling area scroll with inertia effect (default: true).</li>
-            <li><b>pull (boolean)</b> : should scrolling area support 'pull' feature. In this case, a pull header is added on top of the content. When scrolling area is 'pull' at its top, the header appears (default: false).</li>
-            <li><b>pullHeaderHTML (map)</b> : HTML code used to render the pull header for the following states : 'initial', 'release' and 'waiting'. A default HTML rendition is provided for each state.</li>
-            <li><b>emulateTouchEvents (boolean)</b> : should the plugin emulate touch events on devices without touch support (default: false).</li>
-        </ul>
-    </p>
-    <h3>Code</h3>
-    <pre>
-        $('#scrollz1').scrollz({
-            // Options here
-        });
-    </pre>
     
-    <h2>Methods</h2>
-    <p>
-        Scrollz provides the following methods :
-        <ul>
-            <li><b>height(int height)</b> : redefines scrolling area height.</li>
-            <li><b>hidePullHeader</b> : hides the pull header (must be called after processing of the pull action completed).</li>
-        </ul>
-    </p>
-    <h3>Code</h3>
+    <h2>An infinite scroll with pull to refresh</h2>
+    <h3>Markup</h3>
     <pre>
-        // Resize
-        $('#scrollz1').scrollz('resize', 500);
-        
-        // Hide pull header
-        $('#scrollz1').bind('pulled', function() {
-        
-            // Process pull action
-            
-            $('#scrollz1').scrollz('hidePullHeader');
-        });
+    &lt;div id='scrollz2' style=&quot;height: 346px; padding: 0px 10px&quot;&gt;
+        &lt;ul&gt;&lt;/ul&gt;
+    &lt;/div&gt;
     </pre>
-    
-    <h2>Events</h2>
-    <p>
-        Scrollz can trigger 2 types of events :
-        <ul>
-            <li><b>bottomreached</b> : notifies that the bottom of the scrolling area is reached.</li>
-            <li><b>pulled</b> : notifies that the scrolling area (with pull header) was pulled.</li>
-        </ul>
-        The <b>bottomreached</b> event is usefull to implement 'infinte scroll' feature.
-    </p>
-    <h3>Code (infinite scroll and pull to refresh)</h3>
+    <h3>Code</h3>
     <pre>
         // Scroll with pull support
         $('#scrollz2').scrollz({
@@ -278,18 +241,6 @@
             loadMore();
         });
     </script>
-    
-    <h2>Styling</h2>
-    <p>
-        The plugin is provided with a default CSS. This CSS includes pull header and scroll thumb styling.
-        <ul>
-            <li>Styling on the different pull header states (based on the default pullHeaderHTML markup).</li>
-            <li>Pull header icons (as base64) : arrow and animated loader, with retina support.</li>
-            <li>Pull header arrow animations (up and down).</li>
-            <li>Scroll thumb simple styling.</li>
-        </ul>
-        
-    </p>
     
 </body>
 </html>
