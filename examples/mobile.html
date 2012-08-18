@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
 		<meta name="apple-mobile-web-app-capable" content="yes"/>
 		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css"/>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css"/>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 		
 		<!-- Scrollz plugin -->
@@ -30,6 +30,11 @@
 			.ui-li-has-icon .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li-has-icon {
 				min-height: 40px;
 				padding-left: 60px;
+			}
+			
+			.ui-listview .ui-li-icon {
+				max-height: 36px;
+				max-width: 36px;
 			}
 			
 			/* List links */
@@ -104,6 +109,9 @@
 
 				$(document).bind("pageshow", function() {
 					
+					// Force resize (otherwise initial sizes cannot be calculated)
+					//$(window).resize();
+					
 					// Enable scrollz
 					$('#content').scrollz({
 						pull: true,
@@ -111,8 +119,8 @@
 					});
 					
 					// Force resize (otherwise initial sizes cannot be calculated)
-					$(window).resize();
-					$('#content').scrollz('hidePullHeader');
+					//$(window).resize();
+					//$('#content').scrollz('hidePullHeader');
 					
 					// Bind events
 					$('#content').bind('bottomreached', function() {
@@ -137,7 +145,8 @@
 					var visibleContentHeight = (window.innerHeight ? window.innerHeight : $(window).height()) - $(".ui-page-active div.ui-footer").outerHeight() - $(".ui-page-active div.ui-header").outerHeight();
 					var activePageHeight = $('.ui-page-active').height();
 					var fullContentHeight = activePageHeight > visibleContentHeight ? activePageHeight : visibleContentHeight;
-					$('#content').scrollz('height', fullContentHeight);
+					// -1 = otherwise a scrollbar appears with Chrome
+					$('#content').scrollz('height', fullContentHeight - 1);
 				});
 				
 			});
@@ -157,7 +166,7 @@
 			</div>
 			
 			<!-- Content -->
-			<div id="content" data-role="content" data-theme="e">
+			<div id="content" data-role="content">
 				<ul id="tweets" data-role='listview' data-inset='false' data-theme='c'>
 					
 				</ul> 

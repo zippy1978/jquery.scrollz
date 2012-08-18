@@ -1,11 +1,3 @@
-/*!
- * jQuery Scrollz - Easy scrolling plugin
- * Copyright(c) 2012 Gilles Grousset <gi.grousset@gmail.com>
- *
- * http://github.com/zippy1978/jquery.scrollz
- */
-
-
 .scrollz-thumb {
     width : 5px;
     height : 30px;
@@ -18,6 +10,7 @@
     border-radius: 5px;
     z-index: 1000;
 }
+
 .scrollz-pull-header {
     font-family: Helvetica,Arial,sans-serif;
     color: white;

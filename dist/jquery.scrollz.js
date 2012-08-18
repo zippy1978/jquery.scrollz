@@ -1,4 +1,4 @@
-/*! jQuery Scrollz - v1.0.0 - 2012-08-15
+/*! jQuery Scrollz - v1.0.1 - 2012-08-18
 * https://github.com/zippy1978/jquery.scrollz
 * Copyright (c) 2012 Gilles Grousset; Licensed MIT, GPL */
 
@@ -324,6 +324,9 @@
     
     _putTrackingData(instance, 'startTouchTime', null);
     _putTrackingData(instance, 'startTouchY', null);
+    _putTrackingData(instance, 'previousTouchTime', null);
+    _putTrackingData(instance, 'previousTouchY', null);
+    _putTrackingData(instance, 'lastTouchTime', null);
     _putTrackingData(instance, 'lastTouchY', null);
 
   }
@@ -483,16 +486,16 @@
     var container = _getMarkupCache(instance, 'container');
     
     // Compute speed and distance
-    var startTouchY = _getTrackingData(instance, 'startTouchY');
+    var previousTouchY = _getTrackingData(instance, 'previousTouchY');
     var lastTouchY = _getTrackingData(instance, 'lastTouchY');
-    var startTouchTime = _getTrackingData(instance, 'startTouchTime');
-    var duration = new Date() - startTouchTime;
-    var distance = startTouchY - lastTouchY;
+    var previousTouchTime = _getTrackingData(instance, 'previousTouchTime');
+    var duration = new Date() - previousTouchTime;
+    var distance = previousTouchY - lastTouchY;
     var speed = Math.abs(distance / duration);
     
-    // Inertia move
-    if (settings.inertia) {
-      var offset = Math.pow(speed, 2) * Math.abs(distance);
+    // Inertia move (with speed threshold)
+    if (settings.inertia && (speed > 0.50)) {
+      var offset = (Math.pow(speed, 2) * Math.abs(distance)) * 1.25;
       if (distance < 0) {
         offset *= -1;
       }
@@ -521,7 +524,10 @@
       }
       
       _putTrackingData(instance, 'startTouchTime', new Date());
-      _putTrackingData(instance, 'lastTouchY', _getTrackingData(instance, 'startTouchTime'));
+      _putTrackingData(instance, 'previousTouchY', _getTrackingData(instance, 'startTouchY'));
+      _putTrackingData(instance, 'previousTouchTime', _getTrackingData(instance, 'startTouchTime'));
+      _putTrackingData(instance, 'lastTouchY', _getTrackingData(instance, 'startTouchY'));
+      _putTrackingData(instance, 'lastTouchTime', _getTrackingData(instance, 'startTouchTime'));
       _putTrackingData(instance, 'initialScrollPosition', container.scrollTop());
 
    }
@@ -533,9 +539,15 @@
     var container = _getMarkupCache(instance, 'container');
     
     var startTouchY = _getTrackingData(instance, 'startTouchY');
+    var lastTouchY = _getTrackingData(instance, 'lastTouchY');
+    var lastTouchTime = _getTrackingData(instance, 'lastTouchTime');
     var initialScrollPosition = _getTrackingData(instance, 'initialScrollPosition');
     
     if (startTouchY) {
+      
+      // Store last touch as previous touch
+      _putTrackingData(instance, 'previousTouchY', lastTouchY);
+      _putTrackingData(instance, 'previousTouchTime', lastTouchTime);
       
       // Compute move and store last touch
       var moveTo = 0;
@@ -544,8 +556,9 @@
         _putTrackingData(instance, 'lastTouchY',event.originalEvent.targetTouches[0].screenY);
       } else {
         moveTo = (startTouchY - event.screenY) + initialScrollPosition;
-        _putTrackingData(instance, 'lastTouchY',event.screenY);
+        _putTrackingData(instance, 'lastTouchY', event.screenY);
       }
+      _putTrackingData(instance, 'lastTouchTime', new Date());
      
       // Move
       container.scrollTop(moveTo);
@@ -601,7 +614,7 @@
       
       // Slowdown scroll if reaching the pull header
       if ((container.scrollTop() + offset) < _getPullHeaderHeight(instance)) {
-        offset *= 0.03;
+        offset *= 0.05;
       }
       
       container.scrollTop(container.scrollTop() + offset);

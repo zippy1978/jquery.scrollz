@@ -119,6 +119,10 @@ The plugin is provided with a default CSS. This CSS includes pull header and scr
 Version 1.0.0 (16 August 2012):
 * First release.
 
+Version 1.0.1 (18 August 2012):
+* Better inertia support.
+* Fixed default container height when smaller than pull header.
+
 ## License
 Copyright (c) 2012 Gilles Grousset  
 Licensed under the MIT, GPL licenses.

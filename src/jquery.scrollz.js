@@ -1,11 +1,3 @@
-/*
- * jquery.scrollz
- * https://github.com/zippy1978/jquery.scrollz
- *
- * Copyright (c) 2012 Gilles Grousset
- * Licensed under the MIT, GPL licenses.
- */
-
 (function($) {
   
   // Methods definition
@@ -186,7 +178,7 @@
       },
       
     /* Sets container height */
-    height : function(height) {
+    height: function(height) {
       
       return this.each(function() {        
 
@@ -234,11 +226,6 @@
   /* Tests if current device is a touch device. */
   function _isTouchDevice() {
     return ('ontouchstart' in document.documentElement);
-  }
-  
-  /* Get container height. */
-  function _getContainerHeight(instance) {
-      return instance.height();
   }
   
   /* Get pull header height. */
@@ -328,6 +315,9 @@
     
     _putTrackingData(instance, 'startTouchTime', null);
     _putTrackingData(instance, 'startTouchY', null);
+    _putTrackingData(instance, 'previousTouchTime', null);
+    _putTrackingData(instance, 'previousTouchY', null);
+    _putTrackingData(instance, 'lastTouchTime', null);
     _putTrackingData(instance, 'lastTouchY', null);
 
   }
@@ -367,12 +357,15 @@
     
     var settings = instance.data('options');
     
+    // Calculate initial heigth
+    var initialHeight = instance.height();
+    
     // Create content wrapper
     var contentWrapper = $('<div class="scrollz-content-wrapper"/>');
     
     // Create container
     var container = $('<div class="scrollz-container"/>');
-    container.css('height', _getContainerHeight(instance));
+    container.css('height', initialHeight);
     container.css('overflow-x', 'hidden');
     container.css('overflow-y', 'hidden');
     if (settings.styleClass) {
@@ -396,7 +389,7 @@
 
     // Remove height from content
     instance.css('height', 'auto');
-    instance.css('min-height', _getContainerHeight(instance));
+    instance.css('min-height', initialHeight);
     
     // Store generated markup refrerences into object data
     _putMarkupCache(instance, 'contentWrapper', contentWrapper);
@@ -412,15 +405,21 @@
        
      // Add pull header
      contentWrapper.prepend(pullHeader);
-       
-     // Move container to hide header
-     container.scrollTop(_getPullHeaderHeight(instance));
-     
-     // Make container unselectable
-     _makeUnselectable(container);
      
      // Store pull header in markup cache
      _putMarkupCache(instance, 'pullHeader', contentWrapper.children('.scrollz-pull-header'));
+     
+     // Container height must be at least as high as the pull header
+     var pullHeaderHeight = _getPullHeaderHeight(instance);
+     if (initialHeight < pullHeaderHeight) {
+      container.css('height', pullHeaderHeight);
+      instance.css('min-height', pullHeaderHeight);
+     }
+     // Move container to hide header
+     container.scrollTop(pullHeaderHeight);
+     
+     // Make container unselectable
+     _makeUnselectable(container);
 
     }
   }
@@ -487,16 +486,16 @@
     var container = _getMarkupCache(instance, 'container');
     
     // Compute speed and distance
-    var startTouchY = _getTrackingData(instance, 'startTouchY');
+    var previousTouchY = _getTrackingData(instance, 'previousTouchY');
     var lastTouchY = _getTrackingData(instance, 'lastTouchY');
-    var startTouchTime = _getTrackingData(instance, 'startTouchTime');
-    var duration = new Date() - startTouchTime;
-    var distance = startTouchY - lastTouchY;
+    var previousTouchTime = _getTrackingData(instance, 'previousTouchTime');
+    var duration = new Date() - previousTouchTime;
+    var distance = previousTouchY - lastTouchY;
     var speed = Math.abs(distance / duration);
     
-    // Inertia move
-    if (settings.inertia) {
-      var offset = Math.pow(speed, 2) * Math.abs(distance);
+    // Inertia move (with speed threshold)
+    if (settings.inertia && (speed > 0.50)) {
+      var offset = (Math.pow(speed, 2) * Math.abs(distance)) * 1.25;
       if (distance < 0) {
         offset *= -1;
       }
@@ -525,7 +524,10 @@
       }
       
       _putTrackingData(instance, 'startTouchTime', new Date());
-      _putTrackingData(instance, 'lastTouchY', _getTrackingData(instance, 'startTouchTime'));
+      _putTrackingData(instance, 'previousTouchY', _getTrackingData(instance, 'startTouchY'));
+      _putTrackingData(instance, 'previousTouchTime', _getTrackingData(instance, 'startTouchTime'));
+      _putTrackingData(instance, 'lastTouchY', _getTrackingData(instance, 'startTouchY'));
+      _putTrackingData(instance, 'lastTouchTime', _getTrackingData(instance, 'startTouchTime'));
       _putTrackingData(instance, 'initialScrollPosition', container.scrollTop());
 
    }
@@ -537,9 +539,15 @@
     var container = _getMarkupCache(instance, 'container');
     
     var startTouchY = _getTrackingData(instance, 'startTouchY');
+    var lastTouchY = _getTrackingData(instance, 'lastTouchY');
+    var lastTouchTime = _getTrackingData(instance, 'lastTouchTime');
     var initialScrollPosition = _getTrackingData(instance, 'initialScrollPosition');
     
     if (startTouchY) {
+      
+      // Store last touch as previous touch
+      _putTrackingData(instance, 'previousTouchY', lastTouchY);
+      _putTrackingData(instance, 'previousTouchTime', lastTouchTime);
       
       // Compute move and store last touch
       var moveTo = 0;
@@ -548,8 +556,9 @@
         _putTrackingData(instance, 'lastTouchY',event.originalEvent.targetTouches[0].screenY);
       } else {
         moveTo = (startTouchY - event.screenY) + initialScrollPosition;
-        _putTrackingData(instance, 'lastTouchY',event.screenY);
+        _putTrackingData(instance, 'lastTouchY', event.screenY);
       }
+      _putTrackingData(instance, 'lastTouchTime', new Date());
      
       // Move
       container.scrollTop(moveTo);
@@ -562,6 +571,7 @@
     var container = _getMarkupCache(instance, 'container');
   
     var startTouchY = _getTrackingData(instance, 'startTouchY');
+    var previousTouchY = _getTrackingData(instance, 'previousTouchY');
     var lastTouchY = _getTrackingData(instance, 'lastTouchY');
     var initialScrollPosition = _getTrackingData(instance, 'initialScrollPosition');
     
@@ -605,7 +615,7 @@
       
       // Slowdown scroll if reaching the pull header
       if ((container.scrollTop() + offset) < _getPullHeaderHeight(instance)) {
-        offset *= 0.03;
+        offset *= 0.05;
       }
       
       container.scrollTop(container.scrollTop() + offset);
@@ -623,7 +633,7 @@
     var scrollThumb = _getMarkupCache(instance, 'scrollThumb');
     
     // Bottom reached
-    if ((container.scrollTop() + container.height()) === container.get(0).scrollHeight) {
+    if ((container.scrollTop() + container.height()) >= container.get(0).scrollHeight) {
       // Trigger event
       instance.trigger('bottomreached');
     }
