@@ -495,14 +495,14 @@
     
     console.log('acceleration = ' + acceleration + ' dist = ' + distance);
     if (settings.inertia) {
-      var offset = Math.pow(acceleration, 2) * 1000;
+      var offset = Math.pow(acceleration, 2) * 750;
       if (distance < 0) {
         offset *= -1;
       }
       console.log('off =' + offset);
   
       container.stop(true, true);
-      container.animate({scrollTop: _fixContainerScrollTopBounds(instance, container.scrollTop() + offset)}, {duration: acceleration * 1000, easing : 'easeOutCubic'});
+      container.animate({scrollTop: _fixContainerScrollTopBounds(instance, container.scrollTop() + offset)}, {duration: acceleration * 750, easing : 'easeOutCubic'});
     }
   }
   
