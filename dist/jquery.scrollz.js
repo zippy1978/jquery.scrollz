@@ -182,7 +182,7 @@
       },
       
     /* Sets container height */
-    height : function(height) {
+    height: function(height) {
       
       return this.each(function() {        
 
@@ -230,11 +230,6 @@
   /* Tests if current device is a touch device. */
   function _isTouchDevice() {
     return ('ontouchstart' in document.documentElement);
-  }
-  
-  /* Get container height. */
-  function _getContainerHeight(instance) {
-      return instance.height();
   }
   
   /* Get pull header height. */
@@ -366,12 +361,15 @@
     
     var settings = instance.data('options');
     
+    // Calculate initial heigth
+    var initialHeight = instance.height();
+    
     // Create content wrapper
     var contentWrapper = $('<div class="scrollz-content-wrapper"/>');
     
     // Create container
     var container = $('<div class="scrollz-container"/>');
-    container.css('height', _getContainerHeight(instance));
+    container.css('height', initialHeight);
     container.css('overflow-x', 'hidden');
     container.css('overflow-y', 'hidden');
     if (settings.styleClass) {
@@ -395,7 +393,7 @@
 
     // Remove height from content
     instance.css('height', 'auto');
-    instance.css('min-height', _getContainerHeight(instance));
+    instance.css('min-height', initialHeight);
     
     // Store generated markup refrerences into object data
     _putMarkupCache(instance, 'contentWrapper', contentWrapper);
@@ -411,15 +409,21 @@
        
      // Add pull header
      contentWrapper.prepend(pullHeader);
-       
-     // Move container to hide header
-     container.scrollTop(_getPullHeaderHeight(instance));
-     
-     // Make container unselectable
-     _makeUnselectable(container);
      
      // Store pull header in markup cache
      _putMarkupCache(instance, 'pullHeader', contentWrapper.children('.scrollz-pull-header'));
+     
+     // Container height must be at least as high as the pull header
+     var pullHeaderHeight = _getPullHeaderHeight(instance);
+     if (initialHeight < pullHeaderHeight) {
+      container.css('height', pullHeaderHeight);
+      instance.css('min-height', pullHeaderHeight);
+     }
+     // Move container to hide header
+     container.scrollTop(pullHeaderHeight);
+     
+     // Make container unselectable
+     _makeUnselectable(container);
 
     }
   }
@@ -571,6 +575,7 @@
     var container = _getMarkupCache(instance, 'container');
   
     var startTouchY = _getTrackingData(instance, 'startTouchY');
+    var previousTouchY = _getTrackingData(instance, 'previousTouchY');
     var lastTouchY = _getTrackingData(instance, 'lastTouchY');
     var initialScrollPosition = _getTrackingData(instance, 'initialScrollPosition');
     
@@ -632,7 +637,7 @@
     var scrollThumb = _getMarkupCache(instance, 'scrollThumb');
     
     // Bottom reached
-    if ((container.scrollTop() + container.height()) === container.get(0).scrollHeight) {
+    if ((container.scrollTop() + container.height()) >= container.get(0).scrollHeight) {
       // Trigger event
       instance.trigger('bottomreached');
     }
