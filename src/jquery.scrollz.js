@@ -491,18 +491,18 @@
     var previousTouchTime = _getTrackingData(instance, 'previousTouchTime');
     var duration = new Date() - previousTouchTime;
     var distance = previousTouchY - lastTouchY;
-    var speed = Math.abs(distance / duration);
+    var acceleration = Math.abs(distance / duration);
     
-    console.log('speed = ' + speed + ' dist = ' + distance);
+    console.log('acceleration = ' + acceleration + ' dist = ' + distance);
     if (settings.inertia) {
-      var offset = Math.pow(speed, 2) * 250;
+      var offset = Math.pow(acceleration, 2) * 1000;
       if (distance < 0) {
         offset *= -1;
       }
       console.log('off =' + offset);
   
       container.stop(true, true);
-      container.animate({scrollTop: _fixContainerScrollTopBounds(instance, container.scrollTop() + offset)}, {duration: speed * 500, easing : 'easeOutCubic'});
+      container.animate({scrollTop: _fixContainerScrollTopBounds(instance, container.scrollTop() + offset)}, {duration: acceleration * 1000, easing : 'easeOutCubic'});
     }
   }
   
