@@ -493,13 +493,11 @@
     var distance = previousTouchY - lastTouchY;
     var acceleration = Math.abs(distance / duration);
     
-    console.log('acceleration = ' + acceleration + ' dist = ' + distance);
     if (settings.inertia) {
       var offset = Math.pow(acceleration, 2) * 750;
       if (distance < 0) {
         offset *= -1;
       }
-      console.log('off =' + offset);
   
       container.stop(true, true);
       container.animate({scrollTop: _fixContainerScrollTopBounds(instance, container.scrollTop() + offset)}, {duration: acceleration * 750, easing : 'easeOutCubic'});
