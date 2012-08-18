@@ -145,8 +145,7 @@
 					var visibleContentHeight = (window.innerHeight ? window.innerHeight : $(window).height()) - $(".ui-page-active div.ui-footer").outerHeight() - $(".ui-page-active div.ui-header").outerHeight();
 					var activePageHeight = $('.ui-page-active').height();
 					var fullContentHeight = activePageHeight > visibleContentHeight ? activePageHeight : visibleContentHeight;
-					// -1 = otherwise a scrollbar appears with Chrome
-					$('#content').scrollz('height', fullContentHeight - 1);
+					$('#content').scrollz('height', fullContentHeight);
 				});
 				
 			});
@@ -171,9 +170,6 @@
 					
 				</ul> 
 			</div>
-			
-			<!-- Footer -->
-			<div data-role="footer" data-position="fixed" data-tap-toggle="false"></div>
 
 
 		</div>

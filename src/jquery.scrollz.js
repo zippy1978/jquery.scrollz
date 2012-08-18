@@ -493,8 +493,7 @@
     var distance = previousTouchY - lastTouchY;
     var speed = Math.abs(distance / duration);
     
-    // Inertia move (with speed threshold)
-    if (settings.inertia && (speed > 0.50)) {
+    if (settings.inertia) {
       var offset = (Math.pow(speed, 2) * Math.abs(distance)) * 1.25;
       if (distance < 0) {
         offset *= -1;
