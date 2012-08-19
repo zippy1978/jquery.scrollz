@@ -101,7 +101,7 @@
         var $this = $(this);
 
            // If the plugin hasn't been initialized yet
-           if (!$this.data('scrollzInitialized')) {
+           if (!_isInitialized($this)) {
             
              // Store options
              $this.data('options', settings);
@@ -185,7 +185,7 @@
         var $this = $(this);
         
         // If plugin initialized
-        if ($this.data('scrollz')) {
+        if (_isInitialized($this)) {
         
           var settings = $this.data('options');
           var container = _getMarkupCache($this, 'container');
@@ -200,12 +200,12 @@
     /* Hides pull header */
     hidePullHeader: function() {
       
-      return this.each(function() {        
+      return this.each(function() {
 
         var $this = $(this);
         
         // If plugin initialized
-        if ($this.data('scrollz')) {
+        if (_isInitialized($this)) {
         
           var settings = $this.data('options');
           var container = _getMarkupCache($this, 'container');
@@ -632,7 +632,7 @@
     var scrollThumb = _getMarkupCache(instance, 'scrollThumb');
     
     // Bottom reached
-    if ((container.scrollTop() + container.height()) >= container.get(0).scrollHeight) {
+    if ((container.scrollTop() + container.height() + 1) >= container.get(0).scrollHeight) {
       // Trigger event
       instance.trigger('bottomreached');
     }
@@ -700,6 +700,11 @@
     
   }
   
+  /* Checks if plugin was initialized */
+  function _isInitialized(instance) {
+    return instance.data('scrollzInitialized') != null;
+  }
+  
   // Public declaration
   $.fn.scrollz = function(method) {
   
@@ -736,6 +741,15 @@
       
       // Force resize
       $(window).resize();
+      
+    });
+    
+    $(window).bind('orientationchange', function(event) {
+      
+      // Silent scroll for landscape mode: fixes a resize issue for iPhone
+      if (event.orientation === 'landscape') {
+        $.mobile.silentScroll(0);
+      }
       
     });
     

@@ -5,6 +5,8 @@ Modern scrolling for jQuery.
 Primarly designed to work on touch devices, the plugin works as well on desktop browsers.
 At the moment only vertical scroll is supported.
 
+Note that the plugin does not use the widget factory model, as it can be used with plain jQuery (without jQuery UI or jQuery Mobile).
+
 ## Getting Started
 Download the [production version][min] or the [development version][max] and the [CSS][css].
 
@@ -24,6 +26,38 @@ jQuery(function($) {
   $('#content').scrollz();
 });
 </script>
+```
+
+Or auto-enhancement with jQuery Mobile:
+
+```html
+<html>
+    <head>
+        <link rel="stylesheet" href="jquery.mobile.css">
+        <link rel="stylesheet" href="jquery.scrollz.css">
+        <script src="jquery.js"></script>
+        <script src="jquery.mobile.js"></script>
+        <script src="jquery.scrollz.min.js"></script>
+    </head>
+    <body>
+        <div id="index" data-role="page" data-theme="a">
+                <!-- Header -->
+                <div data-role="header" data-position="fixed" data-tap-toggle="false">
+                        <!-- Header content here. -->
+                </div>
+                
+                <!-- Content : data-scrollz supports 'simple' or 'pull'. Content is automatically resized to  the window height between header and footer. -->
+                <div id="content" data-role="content" data-scrollz="pull">
+                        <!-- Scrollable content here. -->
+                </div>
+                
+                <!-- Footer -->
+                <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                        <!-- Footer content here. -->
+                </div>
+        </div>
+    </body>
+</html>
 ```
 
 ## Documentation
@@ -111,6 +145,18 @@ The plugin is provided with a default CSS. This CSS includes pull header and scr
 * Pull header arrow animations (up and down).
 * Scroll thumb simple styling.
 
+###jQuery Mobile support
+The plugin supports jQuery Mobile auto-enhancement feature with attribute 'data-scrollz' for easier / faster integration.
+This attribute supports the follwoing values :
+* simple: builds a simple scrolling area on the target element with default options.
+* pull: builds a scrolling area on the target element with a pull header, other options are default options.
+
+When the feature is used, the scrolling area height is set to fit the window size (without eventual header or footer).
+This height is updated every time the widow is resized. So the attribute cannot be used on 2 elements stacked vertically. However the attribute can be used on elements stacked horizontally as the width is never resized.
+
+### Known issues
+* On iOS devices, the page sometimes blink when the pull header changes its state.
+
 ## Examples
 * [Examples with markup and script description](http://dl.dropbox.com/u/26978903/scrollz/examples.html).
 * [jQuery Mobile](http://dl.dropbox.com/u/26978903/scrollz/mobile.html).
@@ -119,9 +165,11 @@ The plugin is provided with a default CSS. This CSS includes pull header and scr
 Version 1.0.0 (16 August 2012):
 * First release.
 
-Version 1.0.1 (18 August 2012):
+Version 1.0.1 (19 August 2012):
 * Better inertia support.
 * Fixed default container height when smaller than pull header.
+* Fixed resize issue on orientation change.
+* jQuery Mobile auto-enhancement with 'data-scrollz' attribute.
 
 ## License
 Copyright (c) 2012 Gilles Grousset  
