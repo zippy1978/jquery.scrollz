@@ -746,9 +746,7 @@
       var headerHeight = $(".ui-page-active div.ui-header").outerHeight();
       var footerHeight = $(".ui-page-active div.ui-footer").outerHeight();
       var visibleContentHeight = (window.innerHeight ? window.innerHeight : $(window).height()) - (headerHeight ? headerHeight : 0)  - (footerHeight ? footerHeight : 0);
-      var activePageHeight = $('.ui-page-active').height();
-      var fullContentHeight = activePageHeight > visibleContentHeight ? activePageHeight : visibleContentHeight;
-      $(":jqmData(scrollz='simple'), :jqmData(scrollz='pull')").scrollz('height', fullContentHeight);
+      $(":jqmData(scrollz='simple'), :jqmData(scrollz='pull')").scrollz('height', visibleContentHeight);
     });
     
   }

@@ -70,32 +70,37 @@
 		
 			// Load more function        
 			function loadMore() {
-				loading = true;
-		
-				$.getJSON('https://api.twitter.com/1/statuses/user_timeline.json?page=' + nextPageIndex + '&include_entities=true&include_rts=true&screen_name=zippy1978&count=25&callback=?', function(JSON) {
-					var targetList = $('#tweets');
-				    
-					// First page
-					if (nextPageIndex == 0) {
-						targetList.empty();
-					}
-				      
-					$.each(JSON, function() {
-						lastPageIndex = this.id;
-						targetList.append('<li><img class="ui-li-icon" src="' + this.user.profile_image_url + '"/><h3 class="wrapping-new-line">' + this.text.parseURL().parseUsername().parseHashtag() + '</h3></li>');
+				
+				if (!loading) {
+				
+					loading = true;
+			
+					$.getJSON('https://api.twitter.com/1/statuses/user_timeline.json?page=' + nextPageIndex + '&include_entities=true&include_rts=true&screen_name=zippy1978&count=25&callback=?', function(JSON) {
+						var targetList = $('#tweets');
+					    
+						// First page
+						if (nextPageIndex == 0) {
+							targetList.empty();
+						}
+					      
+						$.each(JSON, function() {
+							lastPageIndex = this.id;
+							targetList.append('<li><img class="ui-li-icon" src="' + this.user.profile_image_url + '"/><h3 class="wrapping-new-line">' + this.text.parseURL().parseUsername().parseHashtag() + '</h3></li>');
+						});
+						
+						targetList.listview("refresh");
+						
+						// Hide pull header after first page is loaded
+						if (nextPageIndex == 0) {
+							$('#content').scrollz('hidePullHeader');
+						}
+						
+						nextPageIndex++;
+					    
+						loading = false;
 					});
-					
-					targetList.listview("refresh");
-					
-					// Hide pull header after first page is loaded
-					if (nextPageIndex == 0) {
-						$('#content').scrollz('hidePullHeader');
-					}
-					
-					nextPageIndex++;
-				    
-					loading = false;
-				});
+				
+				}
 				
 			}
 			

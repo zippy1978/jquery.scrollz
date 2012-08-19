@@ -1,4 +1,4 @@
-/*! jQuery Scrollz - v1.0.1 - 2012-08-18
+/*! jQuery Scrollz - v1.0.1 - 2012-08-19
 * https://github.com/zippy1978/jquery.scrollz
 * Copyright (c) 2012 Gilles Grousset; Licensed MIT, GPL */
 
@@ -103,9 +103,9 @@
       return this.each(function() {        
   
         var $this = $(this);
-           
+
            // If the plugin hasn't been initialized yet
-           if (!$this.data('scrollz')) {
+           if (!$this.data('scrollzInitialized')) {
             
              // Store options
              $this.data('options', settings);
@@ -173,7 +173,7 @@
             });
              
             // Mark plugin as initialized
-            $this.data('scrollz', true);
+            $this.data('scrollzInitialized', true);
   
            }
   
@@ -718,4 +718,41 @@
     }  
 
   };
+  
+  // jQuery Mobile auto-enhancement
+  if ($.mobile) {
+    
+    // Add listener on page create (before enhancement)
+    $(":jqmData(role='page')").live("pagecreate", function() {
+      
+      // Simple
+      $(":jqmData(scrollz='simple')").scrollz();
+      
+      // Pull
+      $(":jqmData(scrollz='pull')").scrollz({
+        pull: true,
+        emulateTouchEvents: true
+        });
+      
+    });
+    
+    $(":jqmData(role='page')").live("pageshow", function() {
+      
+      // Force resize
+      $(window).resize();
+      
+    });
+    
+    // Resize listener : auto resize 
+    $(window).resize(function() {
+      
+      // Compute content heights (between header and footer, if any) visible and full
+      var headerHeight = $(".ui-page-active div.ui-header").outerHeight();
+      var footerHeight = $(".ui-page-active div.ui-footer").outerHeight();
+      var visibleContentHeight = (window.innerHeight ? window.innerHeight : $(window).height()) - (headerHeight ? headerHeight : 0)  - (footerHeight ? footerHeight : 0);
+      $(":jqmData(scrollz='simple'), :jqmData(scrollz='pull')").scrollz('height', visibleContentHeight);
+    });
+    
+  }
+  
 }(jQuery));
