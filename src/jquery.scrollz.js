@@ -757,8 +757,14 @@
     $(window).resize(function() {
       
       // Compute content heights (between header and footer, if any) visible and full
-      var headerHeight = $(".ui-page-active div.ui-header").outerHeight();
-      var footerHeight = $(".ui-page-active div.ui-footer").outerHeight();
+      var headerHeight = 0;
+      $(".ui-page-active div.ui-header").each(function () {
+        headerHeight += $(this).outerHeight();
+      });
+      var footerHeight = 0;
+      $(".ui-page-active div.ui-footer").each(function () {
+        footerHeight += $(this).outerHeight();
+      });
       var visibleContentHeight = (window.innerHeight ? window.innerHeight : $(window).height()) - (headerHeight ? headerHeight : 0)  - (footerHeight ? footerHeight : 0);
       $(":jqmData(scrollz='simple'), :jqmData(scrollz='pull')").scrollz('height', visibleContentHeight);
     });
