@@ -1,4 +1,4 @@
-/*! jQuery Scrollz - v1.0.1 - 2012-11-07
+/*! jQuery Scrollz - v1.0.2 - 2012-11-07
 * https://github.com/zippy1978/jquery.scrollz
 * Copyright (c) 2012 Gilles Grousset; Licensed MIT, GPL */
 
