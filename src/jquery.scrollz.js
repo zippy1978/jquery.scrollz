@@ -500,7 +500,10 @@
       }
   
       container.stop(true, true);
-      container.animate({scrollTop: _fixContainerScrollTopBounds(instance, container.scrollTop() + offset)}, {duration: acceleration * 750, easing : 'easeOutCubic'});
+      
+      if (offset !== 0) {
+        container.animate({scrollTop: _fixContainerScrollTopBounds(instance, container.scrollTop() + offset)}, {duration: acceleration * 750, easing : 'easeOutCubic'});
+      }
     }
   }
   
