@@ -119,7 +119,7 @@ jQuery(function($) {
 Scrollz provides the following methods:
 
 * height(height) : redefines scrolling area height.
-* hidePullHeader : hides the pull header (must be called after processing of the pull action completed).
+* hidePullHeader(animated) : hides the pull header (must be called after processing of the pull action completed), if animated parameter is not provided it is set to true by default.
 
 ```html
 <script>
@@ -155,7 +155,7 @@ When the feature is used, the scrolling area height is set to fit the window siz
 This height is updated every time the widow is resized. So the attribute cannot be used on 2 elements stacked vertically. However the attribute can be used on elements stacked horizontally as the width is never resized.
 
 ### Known issues
-* On iOS devices, the page sometimes blink when the pull header changes its state.
+* On iOS devices, the page sometimes blink when the pull header changes its state (seems to be fixed with iOS 6).
 
 ## Examples
 * [Examples with markup and script description](http://dl.dropbox.com/u/26978903/scrollz/examples.html).
@@ -170,6 +170,11 @@ Version 1.0.1 (19 August 2012):
 * Fixed default container height when smaller than pull header.
 * Fixed resize issue on orientation change.
 * jQuery Mobile auto-enhancement with 'data-scrollz' attribute.
+
+Version 1.0.2 (06 November 2012):
+* Multiple headers and footers support with JQuery Mobile.
+* Fixed scroll to top when item is clicked inside scrollable area.
+* Added 'animated' parameter on 'hidePullHeader' method.
 
 ## License
 Copyright (c) 2012 Gilles Grousset  
