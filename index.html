@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>jQuery.Scrollz by zippy1978</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>jQuery.Scrollz</h1>
+        <h2>Modern scrolling for jQuery &amp; jQuery Mobile</h2>
+        <a href="https://github.com/zippy1978/jquery.scrollz" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>jQuery Scrollz</h1>
+
+<p>Modern scrolling for jQuery.</p>
+
+<p>Primarly designed to work on touch devices, the plugin works as well on desktop browsers.
+At the moment only vertical scroll is supported.</p>
+
+<p>Note that the plugin does not use the widget factory model, as it can be used with plain jQuery (without jQuery UI or jQuery Mobile).</p>
+
+<h2>Getting Started</h2>
+
+<p>Download the <a href="https://raw.github.com/zippy1978/jquery.scrollz/master/dist/jquery.scrollz.min.js">production version</a> or the <a href="https://raw.github.com/zippy1978/jquery.scrollz/master/dist/jquery.scrollz.js">development version</a> and the <a href="https://raw.github.com/zippy1978/jquery.scrollz/master/dist/jquery.scrollz.css">CSS</a>.</p>
+
+<p>In your web page:</p>
+
+<div class="highlight"><pre><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"jquery.scrollz.css"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"jquery.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"jquery.scrollz.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+<span class="nx">jQuery</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// #content must have a height set before calling scrollz</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#content'</span><span class="p">).</span><span class="nx">scrollz</span><span class="p">();</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+
+<p>Or auto-enhancement with jQuery Mobile:</p>
+
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"jquery.mobile.css"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"jquery.scrollz.css"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"jquery.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"jquery.mobile.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"jquery.scrollz.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"index"</span> <span class="na">data-role=</span><span class="s">"page"</span> <span class="na">data-theme=</span><span class="s">"a"</span><span class="nt">&gt;</span>
+                <span class="c">&lt;!-- Header --&gt;</span>
+                <span class="nt">&lt;div</span> <span class="na">data-role=</span><span class="s">"header"</span> <span class="na">data-position=</span><span class="s">"fixed"</span> <span class="na">data-tap-toggle=</span><span class="s">"false"</span><span class="nt">&gt;</span>
+                        <span class="c">&lt;!-- Header content here. --&gt;</span>
+                <span class="nt">&lt;/div&gt;</span>
+
+                <span class="c">&lt;!-- Content : data-scrollz supports 'simple' or 'pull'. Content is automatically resized to  the window height between header and footer. --&gt;</span>
+                <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"content"</span> <span class="na">data-role=</span><span class="s">"content"</span> <span class="na">data-scrollz=</span><span class="s">"pull"</span><span class="nt">&gt;</span>
+                        <span class="c">&lt;!-- Scrollable content here. --&gt;</span>
+                <span class="nt">&lt;/div&gt;</span>
+
+                <span class="c">&lt;!-- Footer --&gt;</span>
+                <span class="nt">&lt;div</span> <span class="na">data-role=</span><span class="s">"footer"</span> <span class="na">data-position=</span><span class="s">"fixed"</span> <span class="na">data-tap-toggle=</span><span class="s">"false"</span><span class="nt">&gt;</span>
+                        <span class="c">&lt;!-- Footer content here. --&gt;</span>
+                <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+
+<h2>Documentation</h2>
+
+<h3>Options</h3>
+
+<p>Options can be set when calling .scrollz():</p>
+
+<div class="highlight"><pre><span class="nt">&lt;script&gt;</span>
+<span class="nx">jQuery</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#content'</span><span class="p">).</span><span class="nx">scrollz</span><span class="p">({</span>
+    <span class="nx">styleClass</span><span class="o">:</span> <span class="s1">'myClass'</span><span class="p">,</span>
+    <span class="nx">pull</span><span class="o">:</span> <span class="kc">true</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+
+<p>Available options are:</p>
+
+<ul>
+<li>styleClass (string): style class to apply on the scrolling area (default: none).</li>
+<li>inertia (boolean): should scrolling area scroll with inertia effect (default: true).</li>
+<li>pull (boolean): should scrolling area support 'pull' feature. In this case, a pull header is added on top of the content. When scrolling area is 'pull' at its top, the header appears (default: false).</li>
+<li>pullHeaderHTML (map): HTML code used to render the pull header for the following states : 'initial', 'release' and 'waiting'. A default HTML rendition is provided for each state.</li>
+<li>emulateTouchEvents (boolean): should the plugin emulate touch events on devices without touch support (default: false).</li>
+</ul><h3>Events</h3>
+
+<p>The plugin can trigger the following events:</p>
+
+<ul>
+<li>bottomreached: notifies that the bottom of the scrolling area is reached.</li>
+<li>pulled: notifies that the scrolling area (with pull header) was pulled.</li>
+</ul><p>The bottomreached event is usefull to implement 'infinte scroll' feature.</p>
+
+<p>When pull option is enabled, it is necessary to bind the pulled event in order to hide the pull header one the action triggered on pull is finished:</p>
+
+<div class="highlight"><pre><span class="nt">&lt;script&gt;</span>
+<span class="nx">jQuery</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// Enable scrollz</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#content'</span><span class="p">).</span><span class="nx">scrollz</span><span class="p">({</span>
+    <span class="nx">pull</span><span class="o">:</span> <span class="kc">true</span>
+  <span class="p">});</span>
+
+  <span class="c1">// Bind pulled event</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#content'</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">'pulled'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="c1">// Process pull action here</span>
+
+    <span class="c1">// Hide pull header when done</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'#scrollz2'</span><span class="p">).</span><span class="nx">scrollz</span><span class="p">(</span><span class="s1">'hidePullHeader'</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+
+<h3>Methods</h3>
+
+<p>Scrollz provides the following methods:</p>
+
+<ul>
+<li>height(height) : redefines scrolling area height.</li>
+<li>hidePullHeader(animated) : hides the pull header (must be called after processing of the pull action completed), if animated parameter is not provided it is set to true by default.</li>
+</ul><div class="highlight"><pre><span class="nt">&lt;script&gt;</span>
+<span class="nx">jQuery</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// Enable scrollz</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#content'</span><span class="p">).</span><span class="nx">scrollz</span><span class="p">();</span>
+
+  <span class="c1">// Change height</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#content'</span><span class="p">).</span><span class="nx">scrollz</span><span class="p">(</span><span class="s1">'hidePullHeader'</span><span class="p">);</span>
+
+  <span class="c1">// Hide pull header</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#content'</span><span class="p">).</span><span class="nx">scrollz</span><span class="p">(</span><span class="s1">'height'</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+
+<h3>Styling</h3>
+
+<p>The plugin is provided with a default CSS. This CSS includes pull header and scroll thumb styling.</p>
+
+<ul>
+<li>Styling on the different pull header states (based on the default pullHeaderHTML markup).</li>
+<li>Pull header icons (as base64) : arrow and animated loader, with retina support.</li>
+<li>Pull header arrow animations (up and down).</li>
+<li>Scroll thumb simple styling.</li>
+</ul><h3>jQuery Mobile support</h3>
+
+<p>The plugin supports jQuery Mobile auto-enhancement feature with attribute 'data-scrollz' for easier / faster integration.
+This attribute supports the follwoing values :</p>
+
+<ul>
+<li>simple: builds a simple scrolling area on the target element with default options.</li>
+<li>pull: builds a scrolling area on the target element with a pull header, other options are default options.</li>
+</ul><p>When the feature is used, the scrolling area height is set to fit the window size (without eventual header or footer).
+This height is updated every time the widow is resized. So the attribute cannot be used on 2 elements stacked vertically. However the attribute can be used on elements stacked horizontally as the width is never resized.</p>
+
+<h3>Known issues</h3>
+
+<ul>
+<li>On iOS devices, the page sometimes blink when the pull header changes its state (seems to be fixed with iOS 6).</li>
+</ul><h2>Examples</h2>
+
+<ul>
+<li>
+<a href="http://dl.dropbox.com/u/26978903/scrollz/examples.html">Examples with markup and script description</a>.</li>
+<li>
+<a href="http://dl.dropbox.com/u/26978903/scrollz/mobile.html">jQuery Mobile</a>.</li>
+</ul><h2>Release History</h2>
+
+<p>Version 1.0.0 (16 August 2012):</p>
+
+<ul>
+<li>First release.</li>
+</ul><p>Version 1.0.1 (19 August 2012):</p>
+
+<ul>
+<li>Better inertia support.</li>
+<li>Fixed default container height when smaller than pull header.</li>
+<li>Fixed resize issue on orientation change.</li>
+<li>jQuery Mobile auto-enhancement with 'data-scrollz' attribute.</li>
+</ul><p>Version 1.0.2 (06 November 2012):</p>
+
+<ul>
+<li>Multiple headers and footers support with JQuery Mobile.</li>
+<li>Fixed scroll to top when item is clicked inside scrollable area.</li>
+<li>Added 'animated' parameter on 'hidePullHeader' method.</li>
+</ul><h2>License</h2>
+
+<p>Copyright (c) 2012 Gilles Grousset<br>
+Licensed under the MIT, GPL licenses.</p>
+
+<h2>Contributing</h2>
+
+<p>In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using <a href="https://github.com/cowboy/grunt">grunt</a>.</p>
+
+<h3>Important notes</h3>
+
+<p>Please don't edit files in the <code>dist</code> subdirectory as they are generated via grunt. You'll find source code in the <code>src</code> subdirectory!</p>
+
+<p>While grunt can run the included unit tests via PhantomJS, this shouldn't be considered a substitute for the real thing. Please be sure to test the <code>test/*.html</code> unit test file(s) in <em>actual</em> browsers.</p>
+
+<h3>Installing grunt</h3>
+
+<p><em>This assumes you have <a href="http://nodejs.org/">node.js</a> and <a href="http://npmjs.org/">npm</a> installed already.</em></p>
+
+<ol>
+<li>Test that grunt is installed globally by running <code>grunt --version</code> at the command-line.</li>
+<li>If grunt isn't installed globally, run <code>npm install -g grunt</code> to install the latest version. <em>You may need to run <code>sudo npm install -g grunt</code>.</em>
+</li>
+<li>From the root directory of this project, run <code>npm install</code> to install the project's dependencies.</li>
+</ol><h3>Installing PhantomJS</h3>
+
+<p>In order for the qunit task to work properly, <a href="http://www.phantomjs.org/">PhantomJS</a> must be installed and in the system PATH (if you can run "phantomjs" at the command line, this task should work).</p>
+
+<p>Unfortunately, PhantomJS cannot be installed automatically via npm or grunt, so you need to install it yourself. There are a number of ways to install PhantomJS.</p>
+
+<ul>
+<li><a href="http://ariya.ofilabs.com/2012/02/phantomjs-and-mac-os-x.html">PhantomJS and Mac OS X</a></li>
+<li>
+<a href="http://code.google.com/p/phantomjs/wiki/Installation">PhantomJS Installation</a> (PhantomJS wiki)</li>
+</ul><p>Note that the <code>phantomjs</code> executable needs to be in the system <code>PATH</code> for grunt to see it.</p>
+
+<ul>
+<li><a href="http://www.computerhope.com/issues/ch000549.htm">How to set the path and environment variables in Windows</a></li>
+<li><a href="http://superuser.com/questions/69130/where-does-path-get-set-in-os-x-10-6-snow-leopard">Where does $PATH get set in OS X 10.6 Snow Leopard?</a></li>
+<li><a href="https://www.google.com/search?q=How+do+I+change+the+PATH+variable+in+Linux">How do I change the PATH variable in Linux</a></li>
+</ul>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/zippy1978/jquery.scrollz/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/zippy1978/jquery.scrollz/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/zippy1978/jquery.scrollz"></a> is maintained by <a href="https://github.com/zippy1978">zippy1978</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-18388403-7");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
