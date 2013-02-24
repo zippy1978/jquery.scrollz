@@ -162,8 +162,14 @@ This height is updated every time the widow is resized. So the attribute cannot 
 * [jQuery Mobile](http://dl.dropbox.com/u/26978903/scrollz/mobile.html).
 
 ## Release History
-Version 1.0.0 (16 August 2012):
-* First release.
+
+Current version :
+* Added jQuery 1.9 and jQuery Mobile 1.3 support
+
+Version 1.0.2 (06 November 2012):
+* Multiple headers and footers support with JQuery Mobile.
+* Fixed scroll to top when item is clicked inside scrollable area.
+* Added 'animated' parameter on 'hidePullHeader' method.
 
 Version 1.0.1 (19 August 2012):
 * Better inertia support.
@@ -171,10 +177,8 @@ Version 1.0.1 (19 August 2012):
 * Fixed resize issue on orientation change.
 * jQuery Mobile auto-enhancement with 'data-scrollz' attribute.
 
-Version 1.0.2 (06 November 2012):
-* Multiple headers and footers support with JQuery Mobile.
-* Fixed scroll to top when item is clicked inside scrollable area.
-* Added 'animated' parameter on 'hidePullHeader' method.
+Version 1.0.0 (16 August 2012):
+* First release.
 
 ## License
 Copyright (c) 2012 Gilles Grousset  

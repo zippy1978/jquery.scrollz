@@ -1,6 +1,6 @@
-/*! jQuery Scrollz - v1.0.2 - 2012-11-07
+/*! jQuery Scrollz - v1.0.2 - 2013-02-24
 * https://github.com/zippy1978/jquery.scrollz
-* Copyright (c) 2012 Gilles Grousset; Licensed MIT, GPL */
+* Copyright (c) 2013 Gilles Grousset; Licensed MIT, GPL */
 
 (function($) {
   
@@ -50,7 +50,7 @@
                       clearTimeout(timer);
                   } else {
                       evt.type = 'scrollstart';
-                      $.event.handle.apply(_self, _args);
+                      $.event.dispatch.apply(_self, _args);
                   }
 
                   timer = setTimeout(function(){
@@ -85,7 +85,7 @@
  
                         timer = null;
                         evt.type = 'scrollstop';
-                        $.event.handle.apply(_self, _args);
+                        $.event.dispatch.apply(_self, _args);
  
                     }, special.scrollstop.latency);
    
@@ -739,8 +739,8 @@
   if ($.mobile) {
     
     // Add listener on page create (before enhancement)
-    $(":jqmData(role='page')").live("pagecreate", function() {
-      
+    $(document).on("pagecreate", ":jqmData(role='page')", function() {
+        
       // Simple
       $(":jqmData(scrollz='simple')").scrollz();
       
@@ -752,7 +752,7 @@
       
     });
     
-    $(":jqmData(role='page')").live("pageshow", function() {
+    $(document).on("pageshow", ":jqmData(role='page')", function() {
       
       // Force resize
       $(window).resize();

@@ -46,7 +46,7 @@
                       clearTimeout(timer);
                   } else {
                       evt.type = 'scrollstart';
-                      $.event.handle.apply(_self, _args);
+                      $.event.dispatch.apply(_self, _args);
                   }
 
                   timer = setTimeout(function(){
@@ -81,7 +81,7 @@
  
                         timer = null;
                         evt.type = 'scrollstop';
-                        $.event.handle.apply(_self, _args);
+                        $.event.dispatch.apply(_self, _args);
  
                     }, special.scrollstop.latency);
    
@@ -735,8 +735,8 @@
   if ($.mobile) {
     
     // Add listener on page create (before enhancement)
-    $(":jqmData(role='page')").live("pagecreate", function() {
-      
+    $(document).on("pagecreate", ":jqmData(role='page')", function() {
+        
       // Simple
       $(":jqmData(scrollz='simple')").scrollz();
       
@@ -748,7 +748,7 @@
       
     });
     
-    $(":jqmData(role='page')").live("pageshow", function() {
+    $(document).on("pageshow", ":jqmData(role='page')", function() {
       
       // Force resize
       $(window).resize();
