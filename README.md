@@ -163,7 +163,7 @@ This height is updated every time the widow is resized. So the attribute cannot 
 
 ## Release History
 
-Current version :
+Version 1.0.3 (24 February 2013):
 * Added jQuery 1.9 and jQuery Mobile 1.3 support
 
 Version 1.0.2 (06 November 2012):
