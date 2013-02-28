@@ -131,7 +131,6 @@
             // Add touch end listener
             container.bind(_getTouchEventName($this, 'touchend'), function(event) {
               // Prevent default behaviour
-              event.preventDefault();   
               // Handle
               _handleTouchEndEvent(event, $this);
             });
@@ -588,6 +587,13 @@
     if (!startTouchY) {
       // Nothing to do : touch was already processed
       return;
+    }
+      
+    // Only prevent the default event from
+    // happening when the user has actually
+    // scrolled
+    if (startTouchY !== lastTouchY) {
+        event.preventDefault();
     }
     
     var pullHeaderHeight = _getPullHeaderHeight(instance);

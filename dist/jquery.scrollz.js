@@ -1,4 +1,4 @@
-/*! jQuery Scrollz - v1.0.3 - 2013-02-24
+/*! jQuery Scrollz - v1.0.3 - 2013-02-28
 * https://github.com/zippy1978/jquery.scrollz
 * Copyright (c) 2013 Gilles Grousset; Licensed MIT, GPL */
 
@@ -135,7 +135,6 @@
             // Add touch end listener
             container.bind(_getTouchEventName($this, 'touchend'), function(event) {
               // Prevent default behaviour
-              event.preventDefault();   
               // Handle
               _handleTouchEndEvent(event, $this);
             });
@@ -592,6 +591,13 @@
     if (!startTouchY) {
       // Nothing to do : touch was already processed
       return;
+    }
+      
+    // Only prevent the default event from
+    // happening when the user has actually
+    // scrolled
+    if (startTouchY !== lastTouchY) {
+        event.preventDefault();
     }
     
     var pullHeaderHeight = _getPullHeaderHeight(instance);
