@@ -214,7 +214,7 @@
         
           if (settings.pull) {
             if (animated) {
-              container.animate({scrollTop: _getPullHeaderHeight($this)}, 'fast', function() {
+                container.animate({scrollTop: _getPullHeaderHeight($this)}, 'fast', function() {
                 _changePullHeaderState($this, 'initial');
               });
             } else {

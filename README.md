@@ -163,6 +163,9 @@ This height is updated every time the widow is resized. So the attribute cannot 
 
 ## Release History
 
+Version 1.0.4 (28 February 2013):
+* 'touchend' event is not stopped anymore if the scrollable area is not scrolling (thank you [AdamDash-2](https://github.com/AdamDash-2))
+
 Version 1.0.3 (24 February 2013):
 * Added jQuery 1.9 and jQuery Mobile 1.3 support
 
