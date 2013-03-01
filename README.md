@@ -119,7 +119,7 @@ jQuery(function($) {
 Scrollz provides the following methods:
 
 * height(height) : redefines scrolling area height.
-* hidePullHeader(animated) : hides the pull header (must be called after processing of the pull action completed), if animated parameter is not provided it is set to true by default.
+* hidePullHeader(animated, top) : hides the pull header (must be called after processing of the pull action completed), if animated parameter is not provided it is set to true by default. If top parameter is provided, the scroller position is set to top after pull header has been hidden.
 
 ```html
 <script>
@@ -128,10 +128,10 @@ jQuery(function($) {
   // Enable scrollz
   $('#content').scrollz();
   
-  // Change height
+  // Hide pull header
   $('#content').scrollz('hidePullHeader');
 
-  // Hide pull header
+  // Change height
   $('#content').scrollz('height', 600);
 });
 </script>
@@ -162,6 +162,9 @@ This height is updated every time the widow is resized. So the attribute cannot 
 * [jQuery Mobile](http://dl.dropbox.com/u/26978903/scrollz/mobile.html).
 
 ## Release History
+
+Version 1.0.5 (work in progress):
+* Added 'top' parameter to hidePullHeader method to allow setting a custom scroll position after pull header has been hidden (thanks again [AdamDash-2](https://github.com/AdamDash-2)).
 
 Version 1.0.4 (28 February 2013):
 * 'touchend' event is not stopped anymore if the scrollable area is not scrolling (thank you [AdamDash-2](https://github.com/AdamDash-2))

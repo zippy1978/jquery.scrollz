@@ -1,4 +1,4 @@
-/*! jQuery Scrollz - v1.0.4 - 2013-02-28
+/*! jQuery Scrollz - v1.0.4 - 2013-03-01
 * https://github.com/zippy1978/jquery.scrollz
 * Copyright (c) 2013 Gilles Grousset; Licensed MIT, GPL */
 
@@ -201,10 +201,12 @@
     },
     
     /* Hides pull header */
-    hidePullHeader: function(animated) {
+    hidePullHeader: function(animated, top) {
       
       // If animated parameter is not defined : then it is set to true
       animated = typeof  animated !== 'undefined' ? animated : true;
+      // If top parameter is not defined : then it is set to undefined
+      top = typeof  top !== 'undefined' ? top : undefined;
       
       return this.each(function() {
 
@@ -219,11 +221,18 @@
           if (settings.pull) {
             if (animated) {
                 container.animate({scrollTop: _getPullHeaderHeight($this)}, 'fast', function() {
+                    _changePullHeaderState($this, 'initial');
+                    if (typeof top !== 'undefined') {
+                        container.scrollTop(top);
+                    }
+                });
+            } else {    
+                if (typeof top !== 'undefined') {
+                    container.scrollTop(top);
+                } else {
+                    container.scrollTop(_getPullHeaderHeight($this));
+                }
                 _changePullHeaderState($this, 'initial');
-              });
-            } else {
-              container.scrollTop(_getPullHeaderHeight($this));
-              _changePullHeaderState($this, 'initial');
             }
           }
         }
