@@ -15,7 +15,8 @@
           'waiting' : '<div><div class="icon"/><div class="label">Refreshing...</div></div>' // Pull header waiting state
         },
         'inertia' : true, // Inertia support
-        'emulateTouchEvents' : false // Emulate touch events when device is not a touch device
+        'emulateTouchEvents' : false, // Emulate touch events when device is not a touch device
+        'bottomDetectionOffset' : '10%' // Bottom detection offset in pixels or % of the container height
       }, options);
       
       // Define easeOutCubic easing function (if not defined yet)
@@ -657,8 +658,17 @@
     var contentWrapper = _getMarkupCache(instance, 'contentWrapper');
     var scrollThumb = _getMarkupCache(instance, 'scrollThumb');
     
+    // Parse / compute bottom detection offset
+    var detectionOffset = 1;
+    if (!isNaN(settings.bottomDetectionOffset)) {
+        detectionOffset = settings.bottomDetectionOffset;
+    } else if (settings.bottomDetectionOffset.indexOf('%') !== -1) {
+        var percentage = parseInt(settings.bottomDetectionOffset.substring(0, settings.bottomDetectionOffset.indexOf('%')), 10) / 100;
+        detectionOffset = (container.scrollTop() + container.height()) * percentage;
+    }
+      
     // Bottom reached
-    if ((container.scrollTop() + container.height() + 1) >= container.get(0).scrollHeight) {
+    if ((container.scrollTop() + container.height() + detectionOffset) >= container.get(0).scrollHeight) {
       // Trigger event
       instance.trigger('bottomreached');
     }

@@ -83,6 +83,7 @@ Available options are:
 * pull (boolean): should scrolling area support 'pull' feature. In this case, a pull header is added on top of the content. When scrolling area is 'pull' at its top, the header appears (default: false).
 * pullHeaderHTML (map): HTML code used to render the pull header for the following states : 'initial', 'release' and 'waiting'. A default HTML rendition is provided for each state.
 * emulateTouchEvents (boolean): should the plugin emulate touch events on devices without touch support (default: false).
+* bottomDetectionOffset (int or percentage string): offset for bottomreached event detection. Can be in pixels (int) or percentage of the container (default: '10%').  
 
 ### Events
 The plugin can trigger the following events:
@@ -165,7 +166,7 @@ This height is updated every time the widow is resized. So the attribute cannot 
 
 Version 1.0.5 (work in progress):
 * Added 'top' parameter to hidePullHeader method to allow setting a custom scroll position after pull header has been hidden (thanks again [AdamDash-2](https://github.com/AdamDash-2)).
-
+* Added 'bottomDetectionOffset' option.
 Version 1.0.4 (28 February 2013):
 * 'touchend' event is not stopped anymore if the scrollable area is not scrolling (thank you [AdamDash-2](https://github.com/AdamDash-2))
 
