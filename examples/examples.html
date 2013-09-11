@@ -150,34 +150,51 @@
         // Load more function : used to load AJAX content (uses Twitter JSONP)
         var nextPageIndex = 0;
         var loading = false;
-        function loadMore() {
-        
-                loading = true;
 
-                $.getJSON('https://api.twitter.com/1/statuses/user_timeline.json?page=' + nextPageIndex +
-                '&include_entities=true&include_rts=true&screen_name=zippy1978&count=25&callback=?', function(JSON) {
+        function loadMore() {
+				
+				if (!loading) {
+				
+					loading = true;
                     
+                    url = 'http://zippy1978.tumblr.com/rss';
+                    protocol = document.location.protocol == 'file:' ? 'http:' : document.location.protocol;
+                    $.ajax({
+                    type: "GET",
+                    url: protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=1000&callback=?&q=' + encodeURIComponent(url),
+                    dataType: 'json',
+                    error: function(){
+                        loading = false;
+                    },
+                    success: function(xml){
+                        
+                        var targetList = $('#scrollz2 ul');
+                        
+                        values = xml.responseData.feed.entries;
+                        
                         // First page
-                        if (nextPageIndex == 0) {
-                                $('#scrollz2 ul').empty();
-                        }
-                      
-                        $.each(JSON, function() {
-                                lastPageIndex = this.id;
-                                $('#scrollz2 ul').append('&lt;li&gt;' + this.text + '&lt;/li&gt;');
-                        });
-                      
-                        // Hide pull header after first page is loaded
-                        if (nextPageIndex == 0) {
-                                $('#scrollz2').scrollz('hidePullHeader');
-                        }
+						if (nextPageIndex == 0) {
+							targetList.empty();
+						}
+
+						$.each(values, function() {
+                            targetList.append('&lt;li&gt;' + this.contentSnippet + '&lt;/li&gt;');
+						});
+
+						// Hide pull header after first page is loaded
+						if (nextPageIndex == 0) {
+							$('#scrollz2').scrollz('hidePullHeader');
+						}
                         
                         nextPageIndex++;
-                    
                         loading = false;
+                    }
                 });
-                
+			
+                }
+				
         }
+
     </pre>
     <h3>Result</h3>
     <div class="small-container">
@@ -210,36 +227,49 @@
             var nextPageIndex = 0;
             var loading = false;
             function loadMore() {
-                
-                    if (!loading) {
-            
-                        loading = true;
-    
-                        $.getJSON('https://api.twitter.com/1/statuses/user_timeline.json?page=' + nextPageIndex + '&include_entities=true&include_rts=true&screen_name=zippy1978&count=25&callback=?', function(JSON) {
-                            
-                                // First page
-                                if (nextPageIndex == 0) {
-                                        $('#scrollz2 ul').empty();
-                                }
-                              
-                                $.each(JSON, function() {
-                                        lastPageIndex = this.id;
-                                        $('#scrollz2 ul').append('<li>' + this.text + '</li>');
-                                });
-                              
-                                // Hide pull header after first page is loaded
-                                if (nextPageIndex == 0) {
-                                        $('#scrollz2').scrollz('hidePullHeader');
-                                }
-                                
-                                nextPageIndex++;
-                            
-                                loading = false;
-                        });
-                        
-                    }
+				
+				if (!loading) {
+				
+					loading = true;
                     
-            }
+                    url = 'http://zippy1978.tumblr.com/rss';
+                    protocol = document.location.protocol == 'file:' ? 'http:' : document.location.protocol;
+                    $.ajax({
+                    type: "GET",
+                    url: protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=1000&callback=?&q=' + encodeURIComponent(url),
+                    dataType: 'json',
+                    error: function(){
+                        loading = false;
+                    },
+                    success: function(xml){
+                        
+                        var targetList = $('#scrollz2 ul');
+                        
+                        values = xml.responseData.feed.entries;
+                        
+                        // First page
+						if (nextPageIndex == 0) {
+							targetList.empty();
+						}
+
+						$.each(values, function() {
+                            targetList.append('<li>' + this.contentSnippet + '</li>');
+						});
+
+
+						// Hide pull header after first page is loaded
+						if (nextPageIndex == 0) {
+							$('#scrollz2').scrollz('hidePullHeader');
+						}
+                        
+                        nextPageIndex++;
+                        loading = false;
+                    }
+                });
+			
+                }
+				
+        }
             
             // Initial loading
             loadMore();

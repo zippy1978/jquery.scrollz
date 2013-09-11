@@ -9,7 +9,6 @@
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css"/>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript" src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
-		
 		<!-- Scrollz -->
 		<link rel="stylesheet" href="../src/jquery.scrollz.css"/>
 		<script type="text/javascript" src="../src/jquery.scrollz.js"></script>
@@ -40,6 +39,13 @@
 				color: #1BA8E0;
 				text-decoration: none;
 			}
+            
+            /* Date */
+            .date {
+                margin-top: 5px;
+                font-size: 8px;
+                color: #666666;
+            }
 		</style>
 		
 		<script>
@@ -48,25 +54,6 @@
 			
 			// Indicates if new entries loading is in progress
 			var loading = false;
-
-			// Parsing utilities from: http://www.simonwhatley.co.uk/parsing-twitter-usernames-hashtags-and-urls-with-javascript			
-			String.prototype.parseURL = function() {
-				return this.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g, function(url) {
-					return url.link(url);
-				});
-			};
-			String.prototype.parseUsername = function() {
-				return this.replace(/[@]+[A-Za-z0-9-_]+/g, function(u) {
-					var username = u.replace("@","")
-					return u.link("http://twitter.com/"+username);
-				});
-			};
-			String.prototype.parseHashtag = function() {
-				return this.replace(/[#]+[A-Za-z0-9-_]+/g, function(t) {
-					var tag = t.replace("#","%23")
-					return t.link("http://search.twitter.com/search?q="+tag);
-				});
-			};
 		
 			// Load more function        
 			function loadMore() {
@@ -74,37 +61,50 @@
 				if (!loading) {
 				
 					loading = true;
-			
-					$.getJSON('https://api.twitter.com/1/statuses/user_timeline.json?page=' + nextPageIndex + '&include_entities=true&include_rts=true&screen_name=zippy1978&count=25&callback=?', function(JSON) {
-						var targetList = $('#tweets');
-					    
-						// First page
+                    
+                    url = 'http://zippy1978.tumblr.com/rss';
+                    protocol = document.location.protocol == 'file:' ? 'http:' : document.location.protocol;
+                    $.ajax({
+                    type: "GET",
+                    url: protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=1000&callback=?&q=' + encodeURIComponent(url),
+                    dataType: 'json',
+                    error: function(){
+                        loading = false;
+                    },
+                    success: function(xml){
+                        
+                        var targetList = $('#items');
+                        
+                        values = xml.responseData.feed.entries;
+                        
+                        // First page
 						if (nextPageIndex == 0) {
 							targetList.empty();
 						}
-					      
-						$.each(JSON, function() {
-							lastPageIndex = this.id;
-							targetList.append('<li><img class="ui-li-icon" src="' + this.user.profile_image_url + '"/><h3 class="wrapping-new-line">' + this.text.parseURL().parseUsername().parseHashtag() + '</h3></li>');
+
+						$.each(values, function() {
+							targetList.append('<li><img class="ui-li-icon" src="https://si0.twimg.com/profile_images/1228255464/35265_407923619371_536874371_4521083_7407877_n_bigger.jpg"/><h3 class="wrapping-new-line"><a href="' + this.link + '">' + this.title + '</a></h3><p class="wrapping-new-line">' + this.contentSnippet + '<a href="' + this.link + '">read more</a></p><p class="date">' + this.publishedDate + '</p></li>');
 						});
-						
+
 						targetList.listview("refresh");
-						
+
 						// Hide pull header after first page is loaded
 						if (nextPageIndex == 0) {
 							$('#content').scrollz('hidePullHeader');
 						}
-						
-						nextPageIndex++;
-					    
-						loading = false;
-					});
-				
-				}
+                        
+                        nextPageIndex++;
+                        loading = false;
+                    }
+                });
+			
+                }
 				
 			}
+            
+            
 			
-			// Load initial tweets
+			// Load initial items
 			loadMore();
 				
 			// Bind events
@@ -135,7 +135,7 @@
 			
 			<!-- Content -->
 			<div id="content" data-role="content" data-scrollz="pull">
-				<ul id="tweets" data-role='listview' data-inset='false' data-theme='c'>
+				<ul id="items" data-role='listview' data-inset='false' data-theme='c'>
 					
 				</ul> 
 			</div>

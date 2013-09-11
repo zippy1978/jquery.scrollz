@@ -19,12 +19,12 @@
     font-weight: normal;
     text-align: center;
     vertical-align: middle;
-    padding: 100px 0px 15px 0px;
+    padding: 100px 0 15px 0;
     background-color: #555;
 }
 
 .scrollz-pull-header .label {
-    margin: 2px 0px 0px 20px;
+    margin: 2px 0 0 20px;
 }
 
 .scrollz-pull-header .icon {
@@ -107,14 +107,6 @@
         -moz-transform: rotate(-180deg);
     }
 }
-@-ms-keyframes rotate-arrow-down {
-    from {
-        -ms-transform: rotate(0deg);
-    }
-    to {
-        -ms-transform: rotate(-180deg);
-    }
-}
 @-o-keyframes rotate-arrow-down {
     from {
         -o-transform: rotate(0deg);
@@ -147,14 +139,6 @@
     }
     to {
         -moz-transform: rotate(0deg);
-    }
-}
-@-ms-keyframes rotate-arrow-up {
-    from {
-        -ms-transform: rotate(-180deg);
-    }
-    to {
-        -ms-transform: rotate(0deg);
     }
 }
 @-o-keyframes rotate-arrow-up {
