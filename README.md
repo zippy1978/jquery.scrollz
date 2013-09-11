@@ -7,6 +7,17 @@ At the moment only vertical scroll is supported.
 
 Note that the plugin does not use the widget factory model, as it can be used with plain jQuery (without jQuery UI or jQuery Mobile).
 
+## Features
+* Make any DOM element scrollable
+* Inertia support
+* Load more (bottom reached detection)
+* Pull to refresh
+* jQuery Mobile auto-enhancement
+
+## Examples
+* [Examples with markup and script description](http://dl.dropbox.com/u/26978903/scrollz/examples.html).
+* [jQuery Mobile](http://dl.dropbox.com/u/26978903/scrollz/mobile.html).
+
 ## Getting Started
 Download the [production version][min] or the [development version][max] and the [CSS][css].
 
@@ -154,13 +165,6 @@ This attribute supports the follwoing values :
 
 When the feature is used, the scrolling area height is set to fit the window size (without eventual header or footer).
 This height is updated every time the widow is resized. So the attribute cannot be used on 2 elements stacked vertically. However the attribute can be used on elements stacked horizontally as the width is never resized.
-
-### Known issues
-* On iOS devices, the page sometimes blink when the pull header changes its state (seems to be fixed with iOS 6).
-
-## Examples
-* [Examples with markup and script description](http://dl.dropbox.com/u/26978903/scrollz/examples.html).
-* [jQuery Mobile](http://dl.dropbox.com/u/26978903/scrollz/mobile.html).
 
 ## Release History
 
