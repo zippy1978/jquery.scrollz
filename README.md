@@ -168,27 +168,30 @@ This height is updated every time the widow is resized. So the attribute cannot 
 
 ## Release History
 
-Version 1.0.5 (work in progress):
+### Version 1.0.6 (05 July 2014):
+* IE support (thanks [MaxenceDupressoir](https://github.com/MaxenceDupressoir))
+
+### Version 1.0.5 (01 Mars 2013):
 * Added 'top' parameter to hidePullHeader method to allow setting a custom scroll position after pull header has been hidden (thanks again [AdamDash-2](https://github.com/AdamDash-2)).
 * Added 'bottomDetectionOffset' option.
 Version 1.0.4 (28 February 2013):
 * 'touchend' event is not stopped anymore if the scrollable area is not scrolling (thank you [AdamDash-2](https://github.com/AdamDash-2))
 
-Version 1.0.3 (24 February 2013):
+### Version 1.0.3 (24 February 2013):
 * Added jQuery 1.9 and jQuery Mobile 1.3 support
 
-Version 1.0.2 (06 November 2012):
+### Version 1.0.2 (06 November 2012):
 * Multiple headers and footers support with JQuery Mobile.
 * Fixed scroll to top when item is clicked inside scrollable area.
 * Added 'animated' parameter on 'hidePullHeader' method.
 
-Version 1.0.1 (19 August 2012):
+### Version 1.0.1 (19 August 2012):
 * Better inertia support.
 * Fixed default container height when smaller than pull header.
 * Fixed resize issue on orientation change.
 * jQuery Mobile auto-enhancement with 'data-scrollz' attribute.
 
-Version 1.0.0 (16 August 2012):
+### Version 1.0.0 (16 August 2012):
 * First release.
 
 ## License

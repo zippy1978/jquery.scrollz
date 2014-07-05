@@ -633,8 +633,9 @@
                   
       // Move
       var offset = 0;
+      var deltaY = event.originalEvent.wheelDeltaY !== undefined ? event.originalEvent.wheelDeltaY : event.originalEvent.wheelDelta;
       if (event.type === 'mousewheel') {
-        offset = event.originalEvent.screenY - (event.originalEvent.screenY + event.originalEvent.wheelDeltaY);
+		offset = event.originalEvent.screenY - (event.originalEvent.screenY + deltaY);
       } else {
         offset = event.originalEvent.screenY - (event.originalEvent.screenY + (event.originalEvent.detail * -1 * 3));
       }
