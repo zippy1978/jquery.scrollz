@@ -174,7 +174,8 @@ This height is updated every time the widow is resized. So the attribute cannot 
 ### Version 1.0.5 (01 Mars 2013):
 * Added 'top' parameter to hidePullHeader method to allow setting a custom scroll position after pull header has been hidden (thanks again [AdamDash-2](https://github.com/AdamDash-2)).
 * Added 'bottomDetectionOffset' option.
-Version 1.0.4 (28 February 2013):
+
+### Version 1.0.4 (28 February 2013):
 * 'touchend' event is not stopped anymore if the scrollable area is not scrolling (thank you [AdamDash-2](https://github.com/AdamDash-2))
 
 ### Version 1.0.3 (24 February 2013):
