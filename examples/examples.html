@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../src/jquery.scrollz.css"/>
     
     <!-- jQuery library -->
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
     
     <!-- Scrollz plugin -->
     <script src="../src/jquery.scrollz.js"></script>
@@ -93,16 +93,16 @@
         <div id='scrollz1' style="height: 400px; padding: 0px 15px;">
             <p>Scroll to see other pictures</p>
             <p>
-                <img src="http://distilleryimage7.s3.amazonaws.com/8114892a1fff11e19896123138142014_6.jpg"/>
+                <img src="//distilleryimage7.s3.amazonaws.com/8114892a1fff11e19896123138142014_6.jpg"/>
             </p>
             <p>
-                <img src="http://distillery.s3.amazonaws.com/media/2011/10/05/9302b8e1f5ee40ddaff9dec24f9a77f5_6.jpg"/>
+                <img src="//distillery.s3.amazonaws.com/media/2011/10/05/9302b8e1f5ee40ddaff9dec24f9a77f5_6.jpg"/>
             </p>
             <p>
-                <img src="http://distillery.s3.amazonaws.com/media/2011/09/23/e21e8552138146ac945876dbcb043ecc_6.jpg"/>
+                <img src="//distillery.s3.amazonaws.com/media/2011/09/23/e21e8552138146ac945876dbcb043ecc_6.jpg"/>
             </p>
             <p>
-                <img src="http://distillery.s3.amazonaws.com/media/2011/08/24/4768d409cf944eb3932aae917070932e_6.jpg"/>
+                <img src="//distillery.s3.amazonaws.com/media/2011/08/24/4768d409cf944eb3932aae917070932e_6.jpg"/>
             </p>
             <p>End of content</p>
         </div>
@@ -157,8 +157,10 @@
 				
 					loading = true;
                     
-                    url = 'http://zippy1978.tumblr.com/rss';
-                    protocol = document.location.protocol == 'file:' ? 'http:' : document.location.protocol;
+					protocol = document.location.protocol == 'file:' ? 'http:' : document.location.protocol;
+                    
+					url = protocol + '//zippy1978.tumblr.com/rss';
+                    
                     $.ajax({
                     type: "GET",
                     url: protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=1000&callback=?&q=' + encodeURIComponent(url),
@@ -231,9 +233,10 @@
 				if (!loading) {
 				
 					loading = true;
-                    
-                    url = 'http://zippy1978.tumblr.com/rss';
                     protocol = document.location.protocol == 'file:' ? 'http:' : document.location.protocol;
+
+                  	url = protocol + '//zippy1978.tumblr.com/rss';
+                    
                     $.ajax({
                     type: "GET",
                     url: protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=1000&callback=?&q=' + encodeURIComponent(url),
