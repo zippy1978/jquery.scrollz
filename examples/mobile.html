@@ -49,6 +49,7 @@
 		</style>
 		
 		<script>
+          
 			// Next page index loaded
 			var nextPageIndex = 0;
 			
@@ -62,7 +63,7 @@
 				
 					loading = true;
                     protocol = document.location.protocol == 'file:' ? 'http:' : document.location.protocol;
-                    url = protocol + '//zippy1978.tumblr.com/rss';
+ 	                url = 'http://zippy1978.tumblr.com/rss';
                     $.ajax({
                     type: "GET",
                     url: protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=1000&callback=?&q=' + encodeURIComponent(url),
@@ -104,12 +105,12 @@
             
 			
 			// Load initial items
-			loadMore();
-				
+            loadMore();
+            	
 			// Bind events
             $(document).on('bottomreached', '#content', function() {
 			    // Load more
-			    loadMore();
+                loadMore();
 			});
 			
             $(document).on('pulled', '#content', function() {
@@ -117,7 +118,7 @@
 			    nextPageIndex = 0;
 			    
 			    // Reload
-			    loadMore();
+              	loadMore();
 			});
 		
 		</script>
