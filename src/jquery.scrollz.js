@@ -211,14 +211,13 @@
         
         // If plugin initialized
         if (_isInitialized($this)) {
-        
           var settings = $this.data('options');
           var container = _getMarkupCache($this, 'container');
         
           if (settings.pull) {
             if (animated) {
                 container.animate({scrollTop: _getPullHeaderHeight($this)}, 'fast', function() {
-                    _changePullHeaderState($this, 'initial');
+                    _changePullHeaderState($this, 'initial', true);
                     if (typeof top !== 'undefined') {
                         container.scrollTop(top);
                     }
@@ -229,7 +228,7 @@
                 } else {
                     container.scrollTop(_getPullHeaderHeight($this));
                 }
-                _changePullHeaderState($this, 'initial');
+                _changePullHeaderState($this, 'initial', true);
             }
           }
         }
@@ -418,7 +417,7 @@
      
      // Create pull header
      var pullHeader = $(settings.pullHeaderHTML.initial);
-     pullHeader.addClass('scrollz-pull-header').addClass('initial');
+     pullHeader.addClass('scrollz-pull-header').addClass('initial').addClass('initializing');
        
      // Add pull header
      contentWrapper.prepend(pullHeader);
@@ -442,14 +441,21 @@
   }
   
   /* Change pull header state. */ 
-  function _changePullHeaderState(instance, state) {
-    
+  function _changePullHeaderState(instance, state, isDoneInitializing) {
+    isDoneInitializing = typeof isDoneInitializing !== 'undefined' ? isDoneInitializing : false;
     var settings = instance.data('options');
     var contentWrapper = _getMarkupCache(instance, 'contentWrapper');
     var pullHeader = contentWrapper.children('.scrollz-pull-header');
     
     if (!pullHeader.hasClass(state)) {
-      pullHeader.replaceWith($(settings.pullHeaderHTML[state]).addClass('scrollz-pull-header').addClass(state));
+        if (pullHeader.hasClass('initializing')) {
+            pullHeader.replaceWith($(settings.pullHeaderHTML[state]).addClass('scrollz-pull-header').addClass(state).addClass('initializing'));
+        } else {
+            pullHeader.replaceWith($(settings.pullHeaderHTML[state]).addClass('scrollz-pull-header').addClass(state));
+        }
+    }
+    if (pullHeader.hasClass('initializing') && isDoneInitializing) {
+        pullHeader.removeClass('initializing');
     }
     
     // Update pull header in stored markup
@@ -457,7 +463,6 @@
     
     // Store current state
     instance.data('pullHeaderState', state);
-
   }
   
   /* Returns pull header state */
